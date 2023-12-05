@@ -35,6 +35,9 @@ pub fn main() !void {
         .expires = try ui.DateTimePicker.New(.DateTime),
         .expires_status = try ui.Label.New(""),
 
+        .font = try ui.FontButton.New(),
+        .color = try ui.ColorButton.New(),
+
         .book = try ui.Button.New("Book"),
     };
 
@@ -59,6 +62,10 @@ pub fn main() !void {
     vbox.Append(try app.label("Offer Expires At:"), .dont_stretch);
     vbox.Append(app.expires.as_control(), .dont_stretch);
     vbox.Append(app.expires_status.as_control(), .dont_stretch);
+
+    vbox.Append(try app.label("Ticket Parameters:"), .dont_stretch);
+    vbox.Append(app.font.as_control(), .dont_stretch);
+    vbox.Append(app.color.as_control(), .dont_stretch);
 
     vbox.Append(app.book.as_control(), .dont_stretch);
 
@@ -124,6 +131,8 @@ const App = struct {
     duration_status: *ui.Label,
     expires: *ui.DateTimePicker,
     expires_status: *ui.Label,
+    font: *ui.FontButton,
+    color: *ui.ColorButton,
     book: *ui.Button,
 
     // data
