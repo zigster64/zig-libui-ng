@@ -22,10 +22,19 @@ pub fn main() !void {
 
     var app = App{
         .flight_type = try ui.Combobox.New(),
+
         .leave_datetime = try ui.DateTimePicker.New(.Date),
         .leave_status = try ui.Label.New(""),
+
         .return_datetime = try ui.DateTimePicker.New(.Date),
         .return_status = try ui.Label.New(""),
+
+        .duration = try ui.DateTimePicker.New(.Time),
+        .duration_status = try ui.Label.New(""),
+
+        .expires = try ui.DateTimePicker.New(.DateTime),
+        .expires_status = try ui.Label.New(""),
+
         .book = try ui.Button.New("Book"),
     };
 
@@ -34,10 +43,23 @@ pub fn main() !void {
     main_window.SetChild(vbox.as_control());
     vbox.SetPadded(true);
     vbox.Append(app.flight_type.as_control(), .dont_stretch);
+
+    vbox.Append(try app.label("Departure Flight:"), .dont_stretch);
     vbox.Append(app.leave_datetime.as_control(), .dont_stretch);
     vbox.Append(app.leave_status.as_control(), .dont_stretch);
+
+    vbox.Append(try app.label("Return Flight:"), .dont_stretch);
     vbox.Append(app.return_datetime.as_control(), .dont_stretch);
     vbox.Append(app.return_status.as_control(), .dont_stretch);
+
+    vbox.Append(try app.label("Flight Duration:"), .dont_stretch);
+    vbox.Append(app.duration.as_control(), .dont_stretch);
+    vbox.Append(app.duration_status.as_control(), .dont_stretch);
+
+    vbox.Append(try app.label("Offer Expires At:"), .dont_stretch);
+    vbox.Append(app.expires.as_control(), .dont_stretch);
+    vbox.Append(app.expires_status.as_control(), .dont_stretch);
+
     vbox.Append(app.book.as_control(), .dont_stretch);
 
     // Widget set up
@@ -98,6 +120,10 @@ const App = struct {
     leave_status: *ui.Label,
     return_datetime: *ui.DateTimePicker,
     return_status: *ui.Label,
+    duration: *ui.DateTimePicker,
+    duration_status: *ui.Label,
+    expires: *ui.DateTimePicker,
+    expires_status: *ui.Label,
     book: *ui.Button,
 
     // data
@@ -113,6 +139,12 @@ const App = struct {
     };
     const Error = error{};
     const FlightType = enum { one_way, return_flight };
+
+    fn label(app: *App, s: [:0]const u8) !*ui.Control {
+        _ = app;
+        const l = try ui.Label.New(s);
+        return l.as_control();
+    }
 
     fn run_handle_error(app: *App, event: *const Event) void {
         app.state(app, event) catch |e| {
