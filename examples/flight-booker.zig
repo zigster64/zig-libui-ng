@@ -17,7 +17,7 @@ pub fn main() !void {
     };
     defer ui.Uninit();
 
-    const main_window = try ui.Window.New("Hello, World!", 320, 240, .hide_menubar);
+    const main_window = try ui.Window.New("Advanced Flight Booker!", 320, 240, .hide_menubar);
     const vbox = try ui.Box.New(.Vertical);
 
     var app = App{
@@ -63,7 +63,7 @@ pub fn main() !void {
     vbox.Append(app.expires.as_control(), .dont_stretch);
     vbox.Append(app.expires_status.as_control(), .dont_stretch);
 
-    vbox.Append(try app.label("Ticket Parameters:"), .dont_stretch);
+    vbox.Append(try app.label("Ticket Printing Preferences:"), .dont_stretch);
     vbox.Append(app.font.as_control(), .dont_stretch);
     vbox.Append(app.color.as_control(), .dont_stretch);
 
