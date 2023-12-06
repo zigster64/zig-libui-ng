@@ -12,7 +12,7 @@ const ui = @This();
 pub fn Init(options: *InitData) !void {
     const err = uiInit(&options.options);
     if (err == null) return;
-    options.error_string = err;
+    // options.error_string = err;
     return InitError.Other;
 }
 
