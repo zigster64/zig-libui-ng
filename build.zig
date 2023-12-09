@@ -4,7 +4,7 @@ pub fn build(b: *std.Build) !void {
     const optimize = b.standardOptimizeOption(.{});
     const target = b.standardTargetOptions(.{});
 
-    const libui = b.dependency("libui", .{
+    const libui = b.dependency("libui_local", .{
         .target = target,
         .optimize = optimize,
     });
