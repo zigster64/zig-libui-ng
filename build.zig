@@ -255,7 +255,7 @@ pub fn build(b: *std.Build) !void {
         const run_cmd = b.addRunArtifact(exe);
         run_cmd.step.dependOn(&exe.step);
 
-        const run_step = b.step("run-example-draw", "Run the draw example app");
+        const run_step = b.step("run-example-squiggles", "Run the squiggles example app");
         run_step.dependOn(&run_cmd.step);
 
         check_step.dependOn(&exe.step);
