@@ -115,6 +115,7 @@ const CustomWidget = struct {
 
     fn MouseEvent(handler: *ui.Area.Handler, area: *ui.Area, mouse_event: *ui.Area.MouseEvent) callconv(.C) void {
         const this: *@This() = @fieldParentPtr(@This(), "handler", handler);
+
         if (mouse_event.Down > 0) {
             this.draw_mode = switch (mouse_event.Down) {
                 1 => .Line,
@@ -124,27 +125,31 @@ const CustomWidget = struct {
                     return; // ignore other button presses
                 },
             };
-            // if (this.points) |points| {
+            if (this.points) |points| {
                 points.deinit();
             }
             this.points = PointList.init(this.gpa);
         }
+
         if (mouse_event.Up > 0) {
             if (this.points) |points| {
                 // save the array of points to the array of lines
-        var gradient = ui.Draw.Brush.GradientStop{
-                            .{ .Pos = 0.0, .R = this.randPastel(), .G = this.randPastel(), .B = this.randPastel(), .A = 0.2 },
-                            .{ .Pos = 1.0, .R = this.randPastel(), .G = this.randPastel(), .B = this.randPastel(), .A = 0.2 },
-        };
+                // var gradients = [_]ui.Draw.Brush.GradientStop{
+                //     .{ .Pos = 0.0, .R = this.randPastel(), .G = this.randPastel(), .B = this.randPastel(), .A = 0.2 },
+                //     .{ .Pos = 1.0, .R = this.randPastel(), .G = this.randPastel(), .B = this.randPastel(), .A = 0.2 },
+                // };
+                // _ = gradients;
                 this.lines.append(.{
                     .points = points,
                     .brush = .{
-                        .Type = .LinearGradient,
+                        // .Type = .LinearGradient,
+                        .Type = .Solid,
                         .R = this.randPastel(),
                         .G = this.randPastel(),
                         .B = this.randPastel(),
                         .A = this.randPastel(),
-                        .Stops = gradient,
+                        // .Stops = gradients[0..],
+                        .Stops = null,
                     },
                     .mode = this.draw_mode,
                 }) catch {};
@@ -153,6 +158,7 @@ const CustomWidget = struct {
             this.draw_mode = .None;
             area.QueueRedrawAll();
         }
+
         if (this.draw_mode != .None) {
             if (this.points) |_| {
                 this.points.?.append(.{ .x = mouse_event.X, .y = mouse_event.Y }) catch return;
