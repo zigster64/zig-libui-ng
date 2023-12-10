@@ -3,7 +3,10 @@
     .version = "0.1.0",
     .paths = .{""},
     .dependencies = .{
-          .libui_local = .{
+          .libui = .{
+          .path = "../libui-ng",
+        },
+        .libui_local = .{
           .path = "../libui-ng",
         },
         .libui_web = .{
